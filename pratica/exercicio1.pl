@@ -106,7 +106,50 @@ requisito(ine5428, ine5407).
 disciplina(ine5434, 'TCC II', 8).
 requisito(ine5434, ine5433).
 
-/* Regras */ 
-nome(X, Y) :- disciplina(X, Y, Z).
+/* Teste, deletar dps */
+disciplina(ine01, 'INE 01', 9).
+disciplina(ine02, 'INE 02', 10).
+disciplina(ine03, 'INE 03', 10).
+disciplina(ine04, 'INE 04', 11).
+disciplina(ine05, 'INE 05', 11).
+disciplina(ine06, 'INE 06', 11).
+requisito(ine02, ine01).
+requisito(ine03, ine01).
+requisito(ine04, ine02).
+requisito(ine05, ine02).
+requisito(ine05, ine03).
+requisito(ine06, ine03).
+
+/* Questão 1 */ 
 fase(X, Y) :- disciplina(X, Z, Y).
+
+/* Questão 2 */
+nome(X, Y) :- disciplina(X, Y, Z).
+
+/* Questão 3 */
+disciplinasDaFase(X, Y) :- disciplina(A, Y, X).
+
+/* Questão 4 */
+dependenciaEmComum(X, Y, Z) :- requisito(X, Z) , requisito(Y, Z).
+
+/* Questão 5 */
+dependencia_de_dependencia(X, Y) :- requisito(X, Z), requisito(Z, Y). 
+
+/* Questão 6 */
+questao6(X, Y) :- disciplina(A, B, X) , requisito(Y, A) .
+
+/* Questão 7 */
+questao7(X, Y) :- disciplina(A, B, X) , requisito(A, Y) .
+
+/* Questão 8 */
+questao8(X, Y) :- 
+	disciplina(A, B, X), 
+	disciplina(C, D, X), 
+	not(A = C),
+	requisito(A, G), 
+	requisito(C, G),
+	(requisito(E, A); requisito(E, C)),
+	((disciplina(A, Y, X) ; disciplina(C, Y, X)) , not(A=C)).
+
+/* Questão 10 */
 temDependencia(X) :- requisito(X, Y).
