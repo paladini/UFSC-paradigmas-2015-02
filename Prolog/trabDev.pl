@@ -115,9 +115,39 @@ listaDisciplinas(8, [ine5434]).
 disciplina(ine5434, 'TCC II', 8).
 requisito(ine5434, ine5433).
 
+/* Teste, deletar dps */
+disciplina(ine01, 'INE 01', 9).
+disciplina(ine02, 'INE 02', 10).
+disciplina(ine10, 'INE 10', 10).
+disciplina(ine20, 'INE 20', 10).
+disciplina(ine30, 'INE 30', 10).
+disciplina(ine40, 'INE 40', 10).
+disciplina(ine50, 'INE 50', 10).
+disciplina(ine03, 'INE 03', 10).
+disciplina(ine04, 'INE 04', 11).
+disciplina(ine05, 'INE 05', 11).
+disciplina(ine06, 'INE 06', 11).
+disciplina(ine07, 'INE 07', 11).
+disciplina(ine08, 'INE 08', 11).
+disciplina(ine09, 'INE 09', 11).
+requisito(ine02, ine01).
+requisito(ine03, ine01).
+requisito(ine10, ine01).
+requisito(ine20, ine01).
+requisito(ine30, ine01).
+requisito(ine40, ine01).
+requisito(ine50, ine01).
+requisito(ine04, ine02).
+requisito(ine05, ine02).
+requisito(ine05, ine03).
+requisito(ine06, ine03).
+requisito(ine07, ine10).
+requisito(ine05, ine20).
+requisito(ine09, ine30).
+requisito(ine08, ine40).
+requisito(ine09, ine50).
 
-
-/*Parte 1*/
+/*Parte B*/
 
 /* Questão 1 */ 
 fase(X, Y) :- disciplina(X, _, Y).
@@ -165,3 +195,121 @@ showAll(X, Y, Z) :- disciplina(A, Y, X), recur_disciplinas(A, V), disciplina(V, 
 /*Challenge*/
 recur_disciplinas(X, Y) :- requisito(X, Y).
 recur_disciplinas(X, Y) :- requisito(X, Z), recur_disciplinas(Z, Y).
+
+
+/*Parte C*/
+
+
+
+/*Questão1*/
+qntDisciplinas(X, Y) :- listasDisciplinas(X, Z), length(Z, Y).
+
+
+
+
+
+/*Questão2*/
+
+count([ ]) :- add(0), nb_getval(total, CounterValue), write(CounterValue).
+count([X|L1]) :- length(X, Y), add(Y) ,count(L1).
+qntCurso :- setof(Z, Dist^(listaDisciplinas(Dist, Z)), All), nb_setval(total, 0), count(All).
+add(Y) :- nb_getval(total, C), CNew is C + Y, nb_setval(total, CNew).
+
+
+
+
+/*Questão 3*/
+qntDiscReq(Y) :- setof(Z, Dist^(requisito(Z, Dist)), All), length(All, Y).
+
+
+
+
+/*Questão 4*/
+
+qntPreReq(Y) :- setof(Z, Dist^(requisito(Dist, Z)), All), length(All, Y).
+
+
+
+
+/*Questão 5 - retirar Dist*/
+qntReqDisciplina(X, Y) :- setof(Z, Dist^(requisito(X, Z)), All), length(All, Y).
+qntReqDisciplinaEnc(X, Y) :- setof(Z, Dist^(recur_disciplinas(X, Z)), All), length(All, Y). %write(All) Encadeado
+
+/*Questão 6*/
+mostReq(Y) :- findall(Z, qntReqDisciplina(H, Z), QntReq), max(QntReq, K), qntReqDisciplina(Y, K).
+
+max([R], R).
+max([X|Xs], R):- max(Xs, T), (X > T -> R = X ; R = T).
+
+
+
+/*Questão 7*/
+questao7C(X, Y) :- setof(Z, (requisito(Z, X)), All), length(All, Y).
+
+%questao7C(X, Y) :- setof(Z, (recur_disciplinas(Z, X)), All), length(All, Y), write(All). Encadeado
+
+
+
+
+/*Questão 8*/
+mostImportant(Y) :- findall(Z, qntPosReqDisciplina(_, Z), All), max(All, K), qntPosReqDisciplina(Y, K).
+qntPosReqDisciplina(X, Y) :- setof(Z, recur_posDisciplinas(X, Z), All), length(All, Y).
+
+recur_posDisciplinas(X, Y) :- requisito(Y, X).
+recur_posDisciplinas(X, Y) :- requisito(Y, Z), recur_posDisciplinas(X, Z).
+
+
+/*Questão 9*/
+seq(X,[]) :- \+requisito(X,_).
+seq(X,[Y|L]) :- requisito(X,Y), seq(Y,L).
+
+maiorEnc(Y) :- findall(Z, (qntReqDisciplinaEnc(_, Z)), All), max(All, M), qntReqDisciplinaEnc(Y, M).
+
+%maiorEnc(Y) :- findall(G, (seq(_, Z), length(Z, G)), All), write(All), max(All, M), qntReqDisciplinaEnc(Y, M).
+
+
+
+/*Questão 10 - Disciplina com o maior número de pre-requisitos dado uma lista de disciplinas.*/
+
+qntReqLista([H|G]) :- nb_setval(total, 0), determinarQnt([H|G]), nb_getval(total, C), verificarLista([H|G], C).
+determinarQnt([]) :- !.
+determinarQnt([H|G]) :- nb_getval(total, C), (requisito(_, H) -> qntReqDisciplina(H, Y),(C < Y -> nb_setval(total, Y), determinarQnt(G); determinarQnt(G));
+determinarQnt(G)).
+
+verificarLista([], Z) :- !.
+verificarLista([H|G], Z) :- qntReqDisciplina(H, K), (K = Z -> Y = K, verificarLista(G, Z), write_ln(H) ; verificarLista(G, Z)).
+
+
+
+/* Old Question 2. 
+list_sum([], 0).
+
+ list_sum([Head | Tail], TotalSum) :-
+ list_sum(Tail, Sum1),
+ TotalSum is Head + Sum1.
+
+ colectE([], K, total) :- list_sum(K, total).
+ colectE([X|L1], K, total) :- lenacc(X, 0, Y), colectE(L1, [Y|K], total).
+ qntCurso(Y) :- setof(Z, Dist^(listaDisciplinas(Dist, Z)), All), colectE(All, Y, total).
+
+
+
+ 	member(X, [X|_]).
+	member(X, [_|Y]) :- member(X, Y).
+	?- 	member(c, [a, b, c, d]). verifica primeiro!
+		member(c, [_|Y]) -> member(c, [b, c, d]) -> member(c, [_|Y]) -> member(c, [c,d]).
+
+Exer:		append([], L, L).
+		append([X|L1], L2, [X|L3]) :- append(L1, L2, L3).
+
+EX:
+		append([a,b], [m, n, o], L).
+
+		append([X|L1], 		L2, 				L)			:- append([b], [m, n, o], L3).
+				a [b]  [m, n, o]			[a, L3]
+
+		-> append([X|L1], L2, 				[X|L3]) :- append([], [m, n, o], L3). Aqui irá entrar no primeiro argumento e o L3 valerá
+					[]	  [m, n, o]  	    	b                                                            [m, n, o].
+
+
+*/
