@@ -174,7 +174,7 @@ recur_disciplinas(X, Y) :- requisito(X, Z), recur_disciplinas(Z, Y).
 
 
 /*Questão1*/
-qntDisciplinas(X, Y) :- listasDisciplinas(X, Z), length(Z, Y).
+questao1C(X, Y) :- listaDisciplinas(X, Z), length(Z, Y).
 
 
 
@@ -184,49 +184,51 @@ qntDisciplinas(X, Y) :- listasDisciplinas(X, Z), length(Z, Y).
 
 count([ ]) :- add(0), nb_getval(total, CounterValue), write(CounterValue).
 count([X|L1]) :- length(X, Y), add(Y) ,count(L1).
-qntCurso :- setof(Z, Dist^(listaDisciplinas(Dist, Z)), All), nb_setval(total, 0), count(All).
+questao2C :- setof(Z, Dist^(listaDisciplinas(Dist, Z)), All), nb_setval(total, 0), count(All).
 add(Y) :- nb_getval(total, C), CNew is C + Y, nb_setval(total, CNew).
 
 
 
 
 /*Questão 3*/
-qntDiscReq(Y) :- setof(Z, Dist^(requisito(Z, Dist)), All), length(All, Y).
+questao3C(Y) :- setof(Z, Dist^(requisito(Z, Dist)), All), length(All, Y).
 
 
 
 
 /*Questão 4*/
 
-qntPreReq(Y) :- setof(Z, Dist^(requisito(Dist, Z)), All), length(All, Y).
+questao4C(Y) :- setof(Z, Dist^(requisito(Dist, Z)), All), length(All, Y).
 
 
 
 
-/*Questão 5 - retirar Dist*/
-qntReqDisciplina(X, Y) :- setof(Z, Dist^(requisito(X, Z)), All), length(All, Y).
-qntReqDisciplinaEnc(X, Y) :- setof(Z, Dist^(recur_disciplinas(X, Z)), All), length(All, Y). %write(All) Encadeado
+/*Questão 5 - Simples e Encadeada*/
+questao5CSimples(X, Y) :- setof(Z, (requisito(X, Z)), All), length(All, Y).
+questao5CEnc(X, Y) :- setof(Z, (recur_disciplinas(X, Z)), All), length(All, Y).
 
 
 
-/*Questão 6*/
-mostReq(Y) :- findall(Z, qntReqDisciplina(H, Z), QntReq), max(QntReq, K), qntReqDisciplina(Y, K).
+/*Questão 6 - Simples e Encadeada*/
+questao6CSimples(Y) :- findall(Z, questao5CSimples(H, Z), QntReq), max(QntReq, K), questao5CSimples(Y, K).
+questao6CEnc(Y) :- findall(Z, questao5CEnc(H, Z), QntReq), max(QntReq, K), questao5CEnc(Y, K).
+
 
 max([R], R).
 max([X|Xs], R):- max(Xs, T), (X > T -> R = X ; R = T).
 
 
 
-/*Questão 7*/
-questao7C(X, Y) :- setof(Z, (requisito(Z, X)), All), length(All, Y).
+/*Questão 7 - Simples e Encadeada*/
+questao7CSimples(X, Y) :- setof(Z, (requisito(Z, X)), All), length(All, Y).
 
-%questao7C(X, Y) :- setof(Z, (recur_disciplinas(Z, X)), All), length(All, Y), write(All). Encadeado
-
-
+questao7CEnc(X, Y) :- setof(Z, (recur_disciplinas(Z, X)), All), length(All, Y), write(All).
 
 
-/*Questão 8*/
-mostImportant(Y) :- findall(Z, qntPosReqDisciplina(_, Z), All), max(All, K), qntPosReqDisciplina(Y, K).
+
+
+/*Questão 8 - Pre-requisitos Encadeados*/
+questao8C(Y) :- findall(Z, qntPosReqDisciplina(_, Z), All), max(All, K), qntPosReqDisciplina(Y, K). %Chamada inicial
 qntPosReqDisciplina(X, Y) :- setof(Z, recur_posDisciplinas(X, Z), All), length(All, Y).
 
 recur_posDisciplinas(X, Y) :- requisito(Y, X).
@@ -235,13 +237,11 @@ recur_posDisciplinas(X, Y) :- requisito(Y, Z), recur_posDisciplinas(X, Z).
 
 
 
-/*Questão 9*/
+/*Questão 9 - Encadeada*/
 seq(X,[]) :- \+requisito(X,_).
 seq(X,[Y|L]) :- requisito(X,Y), seq(Y,L).
 
-maiorEnc(Y) :- findall(Z, (qntReqDisciplinaEnc(_, Z)), All), max(All, M), qntReqDisciplinaEnc(Y, M).
-
-%maiorEnc(Y) :- findall(G, (seq(_, Z), length(Z, G)), All), write(All), max(All, M), qntReqDisciplinaEnc(Y, M).
+questao9C(Y) :- findall(Z, (questao5CEnc(_, Z)), All), max(All, M), questao5CEnc(Y, M).
 
 
 
@@ -249,10 +249,11 @@ maiorEnc(Y) :- findall(Z, (qntReqDisciplinaEnc(_, Z)), All), max(All, M), qntReq
 
 /*Questão 10 - Disciplina com o maior número de pre-requisitos dado uma lista de disciplinas.*/
 
-qntReqLista([H|G]) :- nb_setval(total, 0), determinarQnt([H|G]), nb_getval(total, C), verificarLista([H|G], C).
+questao10C([H|G]) :- nb_setval(total, 0), determinarQnt([H|G]), nb_getval(total, C), verificarLista([H|G], C). %Chamada inicial
+
 determinarQnt([]) :- !.
-determinarQnt([H|G]) :- nb_getval(total, C), (requisito(_, H) -> qntReqDisciplina(H, Y),(C < Y -> nb_setval(total, Y), determinarQnt(G); determinarQnt(G));
+determinarQnt([H|G]) :- nb_getval(total, C), (requisito(_, H) -> questao5C(H, Y),(C < Y -> nb_setval(total, Y), determinarQnt(G); determinarQnt(G));
 determinarQnt(G)).
 
 verificarLista([], Z) :- !.
-verificarLista([H|G], Z) :- qntReqDisciplina(H, K), (K = Z -> Y = K, verificarLista(G, Z), write_ln(H) ; verificarLista(G, Z)).
+verificarLista([H|G], Z) :- questao5C(H, K), (K = Z -> Y = K, verificarLista(G, Z), write_ln(H) ; verificarLista(G, Z)).
