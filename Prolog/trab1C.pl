@@ -73,6 +73,7 @@ requisito(ine5419, ine5417).
 requisito(ine5423, ine5408).
 requisito(ine5420, mtm7174).
 requisito(ine5420, mtm5245).
+requisito(ine5420, ine5408).
 requisito(ine5421, ine5415).
 requisito(ine5418, ine5414).
 requisito(ine5418, ine5412).
@@ -86,11 +87,12 @@ disciplina(ine5425, 'Modelagem e Simulação', 6).
 disciplina(ine5430, 'Inteligência Artificial', 6).
 disciplina(ine5426, 'Construção de Compiladores', 6).
 disciplina(ine5424, 'Sistemas Operacionais II', 6).
-requisito(ine5427, ine5419).
-requisito(ine5453, ine5419).
+requisito(ine5427, ine5417).
+requisito(ine5453, ine5417).
 requisito(ine5425, ine5405).
 requisito(ine5430, ine5405).
 requisito(ine5430, ine5416).
+requisito(ine5430, ine5413).
 requisito(ine5426, ine5421).
 requisito(ine5424, ine5412).
 
@@ -105,7 +107,6 @@ requisito(ine5433, ine5427).
 requisito(ine5433, ine5453).
 requisito(ine5432, ine5423).
 requisito(ine5429, ine5403).
-requisito(ine5429, ine5415).
 requisito(ine5429, ine5414).
 requisito(ine5431, ine5414).
 requisito(ine5428, ine5407).
@@ -204,7 +205,7 @@ questao4C(Y) :- setof(Z, Dist^(requisito(Dist, Z)), All), length(All, Y).
 
 
 /*Questão 5 - Simples e Encadeada*/
-questao5CSimples(X, Y) :- setof(Z, (requisito(X, Z)), All), length(All, Y).
+questao5CSimples(X, Y) :- setof(Z, (requisito(X, Z)), All), write(All), length(All, Y).
 questao5CEnc(X, Y) :- setof(Z, (recur_disciplinas(X, Z)), All), length(All, Y).
 
 
@@ -249,11 +250,11 @@ questao9C(Y) :- findall(Z, (questao5CEnc(_, Z)), All), max(All, M), questao5CEnc
 
 /*Questão 10 - Disciplina com o maior número de pre-requisitos dado uma lista de disciplinas.*/
 
-questao10C([H|G]) :- nb_setval(total, 0), determinarQnt([H|G]), nb_getval(total, C), verificarLista([H|G], C). %Chamada inicial
+questao10C([H|G]) :- nb_setval(total, 0), !, determinarQnt([H|G]), nb_getval(total, C), verificarLista([H|G], C). %Chamada inicial
 
 determinarQnt([]) :- !.
-determinarQnt([H|G]) :- nb_getval(total, C), (requisito(_, H) -> questao5C(H, Y),(C < Y -> nb_setval(total, Y), determinarQnt(G); determinarQnt(G));
+determinarQnt([H|G]) :- nb_getval(total, C), (requisito(H, _) -> questao5CEnc(H, Y),(C < Y -> nb_setval(total, Y), determinarQnt(G); determinarQnt(G));
 determinarQnt(G)).
 
 verificarLista([], Z) :- !.
-verificarLista([H|G], Z) :- questao5C(H, K), (K = Z -> Y = K, verificarLista(G, Z), write_ln(H) ; verificarLista(G, Z)).
+verificarLista([H|G], Z) :- questao5CEnc(H, K), (K = Z -> Y = K, verificarLista(G, Z), write_ln(H) ; verificarLista(G, Z)).
