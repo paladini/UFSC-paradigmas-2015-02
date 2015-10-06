@@ -258,3 +258,7 @@ determinarQnt(G)).
 
 verificarLista([], Z) :- !.
 verificarLista([H|G], Z) :- questao5CEnc(H, K), (K = Z -> Y = K, verificarLista(G, Z), write_ln(H) ; verificarLista(G, Z)).
+
+
+calcular_duas_discp(A, B) :-
+questao5CEnc(A, Y), questao5CEnc(B, V), (Y < V -> write(B); write(A)).
