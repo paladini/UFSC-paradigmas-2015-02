@@ -14,15 +14,15 @@
      ?- load.
      ?- searchAll(id1).
      
-   - change Done and ready for test.
-   - changeFirst
-   - changeLast
-   - searchFirst
-   - searchLast
-   - undo
-   - remove Done and ready for test.
-   - quadrado Done and ready for test.
-
+   - change. Done and ready for test.
+   - changeFirst. Done and ready for test.
+   - changeLast.
+   - searchFirst. Done and ready for test.
+   - searchLast. Done and ready for test.
+   - undo.
+   - remove. Done and ready for test.
+   - quadrado. Done and ready for test.
+   - figura.
    - Colocar o nome e matricula de cada integrante do grupo
      nestes comentarios iniciais do programa
 */
@@ -69,7 +69,6 @@ quadrado(Id, X, Y, Lado) :-
     new(Id, 0, Neg),
     new(Id, Neg, 0).
 
-
 % Exibe opcoes de busca
 search :-
     write('searchAll(Id).     -> Ponto inicial e todos os deslocamentos de <Id>'), nl,
@@ -80,34 +79,23 @@ searchAll(Id) :-
     listing(xy(Id,_,_)).
 
 searchFirst(Id, N) :-
-%    findall(Dots, (xy(X,Y,Z), X = Id), All),
-%    write(All),
-%    between(1, N, X),
-%    write(X),
-%    false.
-    clause(xy(Id, X, Y), Body).
+    findall(Ponto, (xy(Id,X,Y), append([Id], [X], L1), append(L1, [Y], Ponto) ), All),
+    nth0(0, All, M),
+    write(M), nl,
+    between(1, N, X),
+    nth0(X, All, K),
+    write(K), nl,
+    false.
 
-%loop(N) :-
-%        between(1, N, X),
-%        writeln(X),
-%        false.
+searchLast(Id, N) :-
+    findall(Ponto, (xy(Id,X,Y), append([Id], [X], L1), append(L1, [Y], Ponto) ), All), length(All, Tam),
+    Itera is Tam - N,
+    between(Itera, Tam, X),
+    nth0(X, All, K),
+    write(K),
+    false.
 
-%solutions(_, N) :-
-%  solution(Q, N),
-%  (cache(Qs) -> retractall(cache(_)) ; Qs = []),
-%  assert(cache([Q|Qs])),
-%  fail.
 
-%solutions(Qs, _) :-
-%  retract(cache(Qs)).
-
-%solutions(Q):-
-%    Q = [X, Y, S],
-%    between(2,50,X),
-%    between(2,50,Y),
-%    S is X+Y,
-%    Y > X,
-%    S =< 50.
 
 % Exibe opcoes de alteracao
 change :-
@@ -116,8 +104,32 @@ change :-
     write('changeLast(Id,Xnew,Ynew).  -> Altera o deslocamento final de <Id>').
 
 change(Id, X, Y, Xnew, Ynew) :-
-    remove(Id, X, Y),
-    new(Id, Xnew, Ynew).
+    findall(Ponto, (xy(Id,X,Y), append([Id], [X], L1), append(L1, [Y], Ponto) ), All), length(All, T),
+    retractall(xy(_,_,_)),
+    remove(Id, X, Y), !,
+    asserta(xy(Id, Xnew, Ynew)), !.
+
+
+changeFirst(Id, Xnew, Ynew) :-
+    remove(Id, _, _), !,
+    asserta(xy(Id, Xnew, Ynew)).
+
+changeLast(Id, Xnew, Ynew) :-
+      findall(Ponto, (xy(Id,X,Y), append([Id], [X], L1), append(L1, [Y], Ponto) ), All), length(All, T),
+      l(All, L),
+      write(L),
+      nth0(0, L, Ident),
+      write(Ident),
+      nth0(1, L, Ex),
+      nth0(2, L, Uai),
+      remove(Ident,Ex, Uai),
+      assertz(xy(Id, Xnew, Ynew)).
+
+
+
+% ler o ultimo, 
+l([X], X).
+l([H|T], L) :- l(T, L).
 % Grava os desenhos da memoria em arquivo
 commit :-
     open('desenhos.pl', write, Stream),
