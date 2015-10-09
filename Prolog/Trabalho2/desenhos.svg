@@ -3,5 +3,5 @@
      width="1000.0"
      height="1000.0"
      viewBox="0 0 1000.0 1000.0" >
-<path style="fill:none;stroke:#000000;stroke-width:1px" id="id20" d="m 500,500 100,0 0,-100 -100,0 z" />
+<path style="fill:none;stroke:#000000;stroke-width:1px" id="id40" d="m 500,500 200,0 150,150 0,200 -150,150 -200,0 -150,-150 0,-200 z" />
 </svg>

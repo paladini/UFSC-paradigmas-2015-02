@@ -14,7 +14,7 @@
      ?- load.
      ?- searchAll(id1).
      
-   - change.
+   - change. Done and ready for test.
    - changeFirst. Done and ready for test.
    - changeLast. Done and ready for test.
    - searchFirst. Done and ready for test.
@@ -22,7 +22,8 @@
    - undo.
    - remove. Done and ready for test.
    - quadrado. Done and ready for test.
-   - figura.
+   - figura. Done and ready for test.
+   - replica.
    - Colocar o nome e matricula de cada integrante do grupo
      nestes comentarios iniciais do programa
 */
@@ -66,8 +67,18 @@ quadrado(Id, X, Y, Lado) :-
     nb_setval(lado, Lado),
     nb_getval(lado, New),
     Neg is New * -1,
-    new(Id, 0, Neg),
+    new(Id, 0, Lado),
     new(Id, Neg, 0).
+
+figura(Id, X, Y) :-
+    new(Id, X, Y),
+    new(Id, 200, 0),
+    new(Id, 150, 150),
+    new(Id, 0, 200),
+    new(Id, -150, 150),
+    new(Id, -200, 0),
+    new(Id, -150, -150),
+    new(Id, 0, -200).
 
 % Exibe opcoes de busca
 search :-
