@@ -104,10 +104,17 @@ change :-
     write('changeLast(Id,Xnew,Ynew).  -> Altera o deslocamento final de <Id>').
 
 change(Id, X, Y, Xnew, Ynew) :-
-    findall(Ponto, (xy(Id,X,Y), append([Id], [X], L1), append(L1, [Y], Ponto) ), All), length(All, T),
+    findall(Ponto, (xy(Id,U,W), append([Id], [U], L1), append(L1, [W], Ponto) ), All), length(All, T),
     retractall(xy(_,_,_)),
-    remove(Id, X, Y), !,
-    asserta(xy(Id, Xnew, Ynew)), !.
+    between(0, T, K),
+    nth0(K, All, V),
+    nth0(0, V, Ident),
+    nth0(1, V, Ex),
+    nth0(2, V, Uai),
+    ( Ident = Id, Ex = X, Uai = Y -> new(Ident, Xnew, Ynew);
+    new(Ident, Ex, Uai)),
+    false.
+
 
 
 changeFirst(Id, Xnew, Ynew) :-
@@ -116,7 +123,7 @@ changeFirst(Id, Xnew, Ynew) :-
 
 changeLast(Id, Xnew, Ynew) :-
       findall(Ponto, (xy(Id,X,Y), append([Id], [X], L1), append(L1, [Y], Ponto) ), All), length(All, T),
-      l(All, L),
+      lUltimo(All, L),
       write(L),
       nth0(0, L, Ident),
       write(Ident),
@@ -128,8 +135,11 @@ changeLast(Id, Xnew, Ynew) :-
 
 
 % ler o ultimo, 
-l([X], X).
-l([H|T], L) :- l(T, L).
+lUltimo([X], X).
+lUltimo([H|T], L) :- l(T, L).
+%ler todos
+lAll([X], X, K).
+lAll([H|T], L, K) :- lAll(T, L, K), H = K.
 % Grava os desenhos da memoria em arquivo
 commit :-
     open('desenhos.pl', write, Stream),
