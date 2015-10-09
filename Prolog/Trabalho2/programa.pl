@@ -14,9 +14,9 @@
      ?- load.
      ?- searchAll(id1).
      
-   - change. Done and ready for test.
+   - change.
    - changeFirst. Done and ready for test.
-   - changeLast.
+   - changeLast. Done and ready for test.
    - searchFirst. Done and ready for test.
    - searchLast. Done and ready for test.
    - undo.
