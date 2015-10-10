@@ -1,0 +1,17 @@
+Um interpretador ou compilador de uma linguagem de programação pode ser decomposto em duas partes: 
+(a) ler o código-fonte do programa e descobrir sua estrutura; 
+(b) processa essa estrutura para gerar o programa final. 
+
+De forma resumida, o Lex e o Yacc podem gerar fragmentos de programas que resolvem a primeira tarefa. Entretanto, vale lembrar que (a) pode ser decomposta em:
+
+a.1) Dividir o código-fonte em tokens (usando o Lex)
+a.2) Descobrir a estrutura hierárquica do programa (usando o Yacc).
+
+O Lex (LEXical Analyzer Generator) e o Flex são programas que reconhecem padrões léxicos em textos, decompondo os elementos recebidos em sua entrada em elementos mais "atômicos". 
+
+O Yacc e o Bison são programas que reconhecem a estrutura de uma entrada dada e convertem uma descrição gramática para um gramática livre de contexto. 
+
+O Flex é uma evolução ou sucessor do Lex, enquanto que o Bison é uma alternativa gratuita do Yacc desenvolvido pelo projeto GNU. Tanto o Flex quanto o Bison são extremamente compatíveis com seus antecessores (Lex e Yacc). 
+
+Abaixo uma imagem de como funciona, de forma resumida, o Lex e o Yacc (traduzida por mim):
+http://i.imgur.com/XXcNBn5.jpg

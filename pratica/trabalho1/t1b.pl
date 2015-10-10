@@ -1,3 +1,4 @@
+/* Emmanuel Podestá Junior, Fernando Paladini, Lucas Ribeiro Neis */
 fase(1).
 fase(2).
 fase(3).
@@ -109,19 +110,38 @@ requisito(ine5434, ine5433).
 /* Teste, deletar dps */
 disciplina(ine01, 'INE 01', 9).
 disciplina(ine02, 'INE 02', 10).
+disciplina(ine10, 'INE 10', 10).
+disciplina(ine20, 'INE 20', 10).
+disciplina(ine30, 'INE 30', 10).
+disciplina(ine40, 'INE 40', 10).
+disciplina(ine50, 'INE 50', 10).
 disciplina(ine03, 'INE 03', 10).
 disciplina(ine04, 'INE 04', 11).
 disciplina(ine05, 'INE 05', 11).
 disciplina(ine06, 'INE 06', 11).
+disciplina(ine07, 'INE 07', 11).
+disciplina(ine08, 'INE 08', 11).
+disciplina(ine09, 'INE 09', 11).
 requisito(ine02, ine01).
 requisito(ine03, ine01).
+requisito(ine10, ine01).
+requisito(ine20, ine01).
+requisito(ine30, ine01).
+requisito(ine40, ine01).
+requisito(ine50, ine01).
 requisito(ine04, ine02).
 requisito(ine05, ine02).
 requisito(ine05, ine03).
 requisito(ine06, ine03).
+requisito(ine07, ine10).
+requisito(ine05, ine20).
+requisito(ine09, ine30).
+requisito(ine08, ine40).
+requisito(ine09, ine50).
+
 
 /* Questão 1 */ 
-fase(X, Y) :- disciplina(X, Z, Y).
+fase(X, Y) :- disciplina(X, _, Y).
 
 /* Questão 2 */
 nome(X, Y) :- disciplina(X, Y, Z).
@@ -130,26 +150,40 @@ nome(X, Y) :- disciplina(X, Y, Z).
 disciplinasDaFase(X, Y) :- disciplina(A, Y, X).
 
 /* Questão 4 */
-dependenciaEmComum(X, Y, Z) :- requisito(X, Z) , requisito(Y, Z).
+dependenciaEmComum(X, Y) :- requisito(X, Z) , requisito(Y, Z), not(X = Y).
 
 /* Questão 5 */
 dependencia_de_dependencia(X, Y) :- requisito(X, Z), requisito(Z, Y). 
 
-/* Questão 6 */
-questao6(X, Y) :- disciplina(A, B, X) , requisito(Y, A) .
+/* Questão 6 */%aqui mostra em forma de lista, porém na questão 8 mostra o outro.
+questao6(X, Y) :- setof(X, P^(disciplina(Y, B, X) , requisito(P, Y)), All).
 
 /* Questão 7 */
 questao7(X, Y) :- disciplina(A, B, X) , requisito(A, Y) .
 
 /* Questão 8 */
-questao8(X, Y) :- 
-	disciplina(A, B, X), 
-	disciplina(C, D, X), 
-	not(A = C),
-	requisito(A, G), 
-	requisito(C, G),
-	(requisito(E, A); requisito(E, C)),
-	((disciplina(A, Y, X) ; disciplina(C, Y, X)) , not(A=C)).
+questao8(X, Y, Z) :- 
+setof(Z, Dist^(P^(
+	disciplina(Y, A, X),
+  	requisito(Y, W),
+  	requisito(Z, W),
+  	not(Y = Z),
+  	requisito(Dist, Y),
+  	requisito(P, Z))), All)
+	.
 
-/* Questão 10 */
-temDependencia(X) :- requisito(X, Y).
+/* Questão 9 */
+questao9(X, Y, Z) :- 
+	disciplina(X, B, W),
+	requisito(X, Y),
+	requisito(Y, Z).
+
+/* Questão 10 - Mostrar o nome de todas as disciplinas de uma fase e seus requisitos */
+showAll(1, Y, _) :- disciplina(_, Y, 1).
+showAll(2, Y, Z) :- disciplina(A, Y, 2), recur_disciplinas(A, V), disciplina(V, Z, K).
+showAll(X, Y, Z) :- disciplina(A, Y, X), recur_disciplinas(A, V), disciplina(V, Z, K).
+
+
+/*Challenge*/
+recur_disciplinas(X, Y) :- requisito(X, Y).
+recur_disciplinas(X, Y) :- requisito(X, Z), recur_disciplinas(Z, Y).

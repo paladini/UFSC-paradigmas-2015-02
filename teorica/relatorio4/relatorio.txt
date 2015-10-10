@@ -1,0 +1,40 @@
+Não achei muito conteúdo falando sobre a diferença entre variável e argumento, entretanto, pelo que sei uma variável é um valor que pode assumir diversos valores, ela não é fixa (ou presa) em um único valor. Na função abaixo, "x" é uma variável:
+
+f(x) = x + 10;
+
+Já o argumento é um valor dado para o cálculo de uma função, por exemplo utilizar a função descrita acima com f(10). f(x) = x + 10; como definimos que a variável "x" assumirá o valor do argumento dado (no caso, 10), então temos que f(10) = 10 + 10 = 20.
+
+-----------
+
+Existem 3 tipos de redução no cálculo lambda: alfa, beta e eta. Reduções são utilizadas no cálculo lambda para reduzir uma expressão em sua forma mais simples possível. Isso é, em geral, o que o cálculo lambda faz para resolver expressões.
+
+Redução Alfa:
+Nessa redução é utilizada uma técnica de renomeação de um identificador limitado por qualquer outro identificador que não esteja contido na expressão. Essa redução é utilizada para simplificar a compressão de uma expressão, facilitando assim o seu cálculo. 
+
+Exemplo:
+	λx.x -> λy.y
+	λx.2x + z -> λy.2y + z
+
+Redução Eta:
+É utilizada para eliminar redundâncias nas abstrações do cálculo lambda. Essa redução expressa a ideia de extensionalidade, que nesse contexto significa que duas funções são as mesmas se e somente se elas dão o mesmo resultado para todos os argumentos. 
+
+--------------------
+
+Parte 2:
+
+1) deleteBy (\x y -> y `mod` x == 0) 3 [5..10]
+2) filter (\x -> x `mod` 4 == 0) [4..20]
+3) [1,1,1,2,2,3,3,4]
+
+
+Referências utilizadas:
+- https://en.wikipedia.org/wiki/Lambda_calculus
+- http://softoption.us/content/node/36
+- http://www.cs.rpi.edu/academics/courses/spring10/proglang/handouts/LambdaCalculus.pdf
+- https://classes.soe.ucsc.edu/cmps112/Spring03/readings/lambdacalculus/reductions.html
+- http://palmstroem.blogspot.com.br/2012/05/lambda-calculus-for-absolute-dummies.html
+- http://www.inf.fu-berlin.de/lehre/WS03/alpi/lambda.pdf
+- http://functionspace.com/articles/58/Basics-of---lambda--Calculus
+
+<lamba>x.x == f(x) = x
+<lambda>x.xy <lambda>y.y ===> d.y.y.y => y

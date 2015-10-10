@@ -1,0 +1,7 @@
+Como eu já tinha algum contato com Python e há muito tempo gosto de sua facilidade de uso, bem como sua fantástica comunidade, não tive muitos problemas em entender o paradigma procedural em Python, uma vez que já havia criado mais programas assim antigamente.
+
+O que mais me deixou confuso foi o paradigma funcional, que sinceramente creio que ainda não entendi muito bem. Os recursos dados para realizar a tarefa foram poucos, em minha opinião. A documentação do Python sobre programação funcional é boa, mas não entendi ainda como programar um programa 100% funcional e sequer se isso é possível. Também não sei direito se posso ter variáveis ou não em um programa totalmente funcional. Detalhes como esses me deixaram confuso a respeito da minha própria solução funcional e mista, mas creio que estejam certas (ao menos em parte certas).
+
+O paradigma funcional parace ser muito interessante, pois com o aumento da parelelização este se tornará uma ótima forma de programar, uma vez que não é dependente de variáveis globais e estruturas de dados que requerem sincronismo (facilitando assim o trabalho dos desenvolvedores, compiladores e a velocidade das aplicações em geral, além do aproveitamento do processador).
+
+Fiz com que os programas feitos para esse relatório fossem bem simples e pequenos para poder mostrar o verdadeiro poder de Python, que com poucas linhas de programação pode consultar APIs do sistema ou da Internet e fazer verdadeiros milagres. A produtividade utilizando-se Python é altíssima, como é possível notar nos programas feitos. 

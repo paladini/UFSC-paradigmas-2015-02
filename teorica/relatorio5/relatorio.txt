@@ -1,0 +1,2 @@
+1) Paul Hudak foi um professor de ciência da computação da Universidade de Yale que ficou conhecido pelo seu envolvimento com a linguagem de programação funcional Haskell e pelos seus diversos textos e livros sobre o mesmo assunto. Também foi responsável por criar o tutorial denominado "A Gentle Introduction to Haskell", um famoso guia introdutório para a linguagem de programação Haskell.
+
