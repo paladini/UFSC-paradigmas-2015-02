@@ -39,6 +39,10 @@ remove(Id, X, Y) :-
 %     close(File1),
 %     close(File2).
 
+undo:-
+  list(A, B, C),
+  retract(list(A,B,C)),
+  retract(xy(A,B,C)), !.
 
 % Apaga os predicados 'xy' da memoria e carrega os desenhos a partir de um arquivo de banco de dados
 load :-
@@ -54,11 +58,13 @@ load :-
 new(Id,X,Y) :-
     xy(Id,_,_),
     assertz(xy(Id,X,Y)),
+    asserta(list(Id,X,Y)),
     !.
 
 % Ponto inicial, caso contrario
 new(Id,X,Y) :-
     asserta(xy(Id,X,Y)),
+    asserta(list(Id,X,Y)),
     !.
 
 quadrado(Id, X, Y, Lado) :-
@@ -70,7 +76,7 @@ quadrado(Id, X, Y, Lado) :-
     new(Id, 0, Lado),
     new(Id, Neg, 0).
 
-figura(Id, X, Y) :-
+/*figura(Id, X, Y) :-
     new(Id, X, Y),
     new(Id, 200, 0),
     new(Id, 150, 150),
@@ -78,7 +84,22 @@ figura(Id, X, Y) :-
     new(Id, -150, 150),
     new(Id, -200, 0),
     new(Id, -150, -150),
-    new(Id, 0, -200).
+    new(Id, 0, -200).*/
+
+figura(Id, X, Y, Lado) :-
+    nb_setval(lado, Lado),
+    nb_getval(lado, New),
+    Neg is New * -1,
+    NegU is Neg / sqrt(2),
+    LadoU is New / sqrt(2),
+    new(Id, X, Y),
+    new(Id, LadoU, NegU),
+    new(Id, Lado, 0),
+    new(Id, LadoU, LadoU),
+    new(Id, 0, Lado),
+    new(Id, NegU, LadoU),
+    new(Id, Neg, 0),
+    new(Id, NegU, NegU).
 
 % Exibe opcoes de busca
 search :-
@@ -143,8 +164,6 @@ changeLast(Id, Xnew, Ynew) :-
       remove(Ident,Ex, Uai),
       assertz(xy(Id, Xnew, Ynew)).
 
-
-
 % ler o ultimo, 
 lUltimo([X], X).
 lUltimo([H|T], L) :- l(T, L).
@@ -157,6 +176,7 @@ commit :-
     telling(Screen),
     tell(Stream),
     listing(xy),
+    listing(list),
     tell(Screen),
     close(Stream).
 
