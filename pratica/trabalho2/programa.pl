@@ -15,9 +15,9 @@
      ?- load.
      ?- searchAll(id1).
      
-   - change. Done and ready for test.
-      * returning "false", I think it should return "true" instead (more friendly)
-      * When we got two or more identifiers (id40, id50 and so on), this method changes
+   - [Done] change. Done and ready for test.
+      * [Done] returning "false", I think it should return "true" instead (more friendly)
+      * [Done] When we got two or more identifiers (id40, id50 and so on), this method changes
         the correct point, but "deletes" all points from different identifiers.
 
         How to reproduce:
@@ -30,7 +30,7 @@
 
         Then change some identifier calling change(id50, 0, -2, 10000, 10000).
 
-   - changeFirst. Done and ready for test.
+   - [Not a problem] changeFirst. Done and ready for test.
       * Not changing only the first when points with same value appears:
             xy(id40, 0, 250).
             xy(id40, 0, 250).
@@ -160,7 +160,7 @@ change :-
     write('changeLast(Id,Xnew,Ynew).  -> Altera o deslocamento final de <Id>').
 
 change(Id, X, Y, Xnew, Ynew) :-
-    findall(Ponto, (xy(Id,U,W), append([Id], [U], L1), append(L1, [W], Ponto) ), All), length(All, T),
+    (findall(Ponto, (xy(TEST,U,W), append([TEST], [U], L1), append(L1, [W], Ponto) ), All), length(All, T),
     retractall(xy(_,_,_)),
     between(0, T, K),
     nth0(K, All, V),
@@ -168,10 +168,8 @@ change(Id, X, Y, Xnew, Ynew) :-
     nth0(1, V, Ex),
     nth0(2, V, Uai),
     ( Ident = Id, Ex = X, Uai = Y -> new(Ident, Xnew, Ynew);
-    new(Ident, Ex, Uai)),
-    false.
-
-
+    new(Ident, Ex, Uai)), false);
+    true.
 
 changeFirst(Id, Xnew, Ynew) :-
     remove(Id, _, _), !,
