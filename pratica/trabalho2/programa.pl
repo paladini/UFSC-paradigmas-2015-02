@@ -38,24 +38,17 @@
         This will change both values. Actually don't know if it is a real problem.
         Anyway, can be easily solved just picking up the first point and ignoring others.
 
-   - changeLast. Done and ready for test.
-      * Couldn't test because the following error:
+   - [Done] changeLast. Done and ready for test.
+      * [Done] Couldn't test because the following error:
           ?- changeLast(id50, 200, 20004).
           ERROR: lUltimo/2: Undefined procedure: l/2
           Exception: (9) l([[id50, 0, -200]], _G566) ? 
 
    - searchFirst. Done and ready for test.
-      * It's okay, but receiving the following error after print the result:
-
-          ?- searchFirst(id50, X).
-          [id50,-150,-150]
-          ERROR: between/3: Arguments are not sufficiently instantiated
+      * Okay.
 
    - searchLast. Done and ready for test.
-      * Can't use this command, don't know if I'm calling it wrong or what. 
-
-          ?- searchLast(id40, X).
-          ERROR: is/2: Arguments are not sufficiently instantiated
+      * Okay.
 
    - undo.
 
@@ -186,11 +179,9 @@ changeLast(Id, Xnew, Ynew) :-
       remove(Ident,Ex, Uai),
       assertz(xy(Id, Xnew, Ynew)).
 
-
-
 % ler o ultimo, 
 lUltimo([X], X).
-lUltimo([H|T], L) :- l(T, L).
+lUltimo([H|T], L) :- lUltimo(T, L).
 %ler todos
 lAll([X], X, K).
 lAll([H|T], L, K) :- lAll(T, L, K), H = K.
