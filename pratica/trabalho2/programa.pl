@@ -113,60 +113,6 @@ quadrado(Id, X, Y, Lado) :-
     new(Id, 0, Lado),
     new(Id, Neg, 0).
 
-/* %% replicaSozinho([H|T], Id, Dx, Dy) :-
-%%     nth0(0, H, X),
-%%     nth0(1, H, Y),
-%%     DoubleX is X + Dx,
-%%     DoubleY is Y + Dy,
-%%     new(Id, DoubleX, DoubleY).
-%%     replicaSozinho(T, Id, Dx, Dy).
-    %% DoubleX is [H 
-
-replicaSolitario(Id, [H|T], N, Dx, Dy) :- 
-%%     nth0(0, H, X),
-%%     nth0(1, H, Y),
-%%     DoubleX is X + Dx,
-%%     DoubleY is Y + Dy,
-%%     new(Id, )
-
-%% replica(Id, N, Dx, Dy) :- 
-%%       between(0, N, M),
-%%       sup(Id, Dx, Dy),
-%%       false.
-
-%% sup(Id, Dx, Dy) :-
-%%     findall(Ponto, (xy(Id,X,Y), append([Id], [X], L1), append(L1, [Y], Ponto) ), All), length(All, T),
-%%     between(0, T, K),
-%%     nth0(K, All, V),
-%%     nth0(0, V, Ident),
-%%     nth0(1, V, Ex),
-%%     nth0(2, V, Uai),
-%%     atom_concat(Ident, '0', NewIdent),
-%%     NewEx is Ex+Dx,
-%%     NewUai is Uai+Dy,
-%%     new(NewIdent, NewEx, NewUai),
-%%     false.
-
-%% replicaTeste([], N, Dx, Dy). */
-
-%% test(Point, Dx, Dy) :-
-%%     nth0(0, V, Ident),
-%%     nth0(1, V, Ex),
-%%     nth0(2, V, Uai),
-%%     atom_concat(Ident, '0', NewIdent),
-%%     NewEx is Ex+Dx,
-%%     NewUai is Uai+Dy,
-%%     new(NewIdent, NewEx, NewUai),
-%%     false.
-
-%% testFinal(V) :-
-%%     nth0(0, V, Ident),
-%%     nth0(1, V, Ex),
-%%     nth0(2, V, Uai),
-%%     atom_concat(Ident, '0', NewIdent),
-%%     new(NewIdent, Ex, Uai),
-%%     false.
-
 replicaTeste(Id, N, Dx, Dy) :-
     findall(Ponto, (xy(Id,X,Y), append([Id], [X], L1), append(L1, [Y], Ponto) ), All), length(All, T),
     between(0, T, K),
@@ -184,47 +130,6 @@ replica(Id,N,Dx,Dy) :-
     between(1, N, M),
     replicaTeste(Id, M, Dx, Dy),
     false.
-    %% findall(Ponto, (xy(Id,U,W), append([Id], [U], L1), append(L1, [W], Ponto) ), All), 
-    %% length(All, T),
-    %% between(1, T, K),
-    %% nth0
-    %% forall(member(X, All), (write(X), write("\n"), replicaTeste(X, N, Dx, Dy))).  
-
-
-
-    %% replicaSolitario(Id, X, N, Dx, Dy)).
-    %% foreach(between(0, N, X), ),
-    
-    %% N >= 1,
-    %% replicaSolitario(Id, Dx, Dy),
-    %% Teste is N-1,
-    %% replica(Id, Teste, Dx, Dy).
-    %% (xy(Id, X, Y),
-    %% DoubleX is X + Dx,
-    %% DoubleY is Y + Dy,
-    %% new(Id, DoubleX, DoubleY)),
-    %% Teste is N-1,
-    %% write("Number: "), write(Teste),
-    %% replica(Id, Teste, DoubleX, DoubleY).
-    %% Teste is N - 1,
-    %% replicaSozinho(All, Id, N, Dx, Dy).
-    %% replica(Id, Teste, DoubleX, DoubleY).
-    
-    %% length(All, T),
-    
-    %% foreach(between(1, N, X), new(Id, DoubleX, DoubleY)).
-    %% between(0, T, Between),
-    %% foreach(between(0, N, X), ),
-
-/*figura(Id, X, Y) :-
-    new(Id, X, Y),
-    new(Id, 200, 0),
-    new(Id, 150, 150),
-    new(Id, 0, 200),
-    new(Id, -150, 150),
-    new(Id, -200, 0),
-    new(Id, -150, -150),
-    new(Id, 0, -200).*/
 
 figura(Id, X, Y, Lado) :-
     nb_setval(lado, Lado),
@@ -266,8 +171,6 @@ searchLast(Id, N) :-
     nth0(X, All, K),
     write(K),
     false.
-
-
 
 % Exibe opcoes de alteracao
 change :-
