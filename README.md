@@ -1,1 +1,1 @@
-# UFSC-2015-Paradigmas
+# UFSC-programming-paradigms
